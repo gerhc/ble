@@ -29,5 +29,5 @@ while True:
             minor=beac["minor"], txpower=beac["txp"], rssi=beac["rssi"])
         allbs[beacon.uuid] = beacon
 
-    print allbs["aeae72f5af6749aeac60f27b5b6fa92f"]
-    print allbs["aeae72f5af6749aeac60f27b5b6fa92f"].getDistance()
+    for key, _ in allbs.iteritems():
+        print allbs[key]
