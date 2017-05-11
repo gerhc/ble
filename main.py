@@ -7,6 +7,7 @@ import sys
 import json
 
 import bluetooth._bluetooth as bluez
+from beacon import Beacon
 
 dev_id = 0
 try:
@@ -24,9 +25,9 @@ while True:
     returnedList = blescan.parse_events(sock, 10)
     allbs = {}
     for beac in returnedList:
-        uuid = beac['uuid']
-        if not uuid.startswith('0613ff4c'):
-            allbs[uuid] = beac
+        beacon = Beacon(uuid=beac["uuid"], mac=beac["mac"], major=beac["major"],
+            minor=beac["minor"], txpower=beac["txp"], rssi=beac["rssi"])
+        allbs[beacon.uuid] = beacon
 
-    with open('./beacons.json', 'w') as of:
-        json.dump(allbs, of)
+    print allbs["aeae72f5af6749aeac60f27b5b6fa92f"]
+    print allbs["aeae72f5af6749aeac60f27b5b6fa92f"].getDistance()
