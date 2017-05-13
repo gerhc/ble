@@ -51,7 +51,6 @@ class Beacon:
         if self.rssi == 0:
             return -1.0
 
-        # print type(self.rssi)
         if self.txpower == 0:
             return -1.0
 

@@ -51,7 +51,7 @@ def returnnumberpacket(pkt):
     myInteger = 0
     multiple = 256
     for c in pkt:
-        myInteger += struct.unpack("B", c)[0] * multiple
+        myInteger += c * multiple
         multiple = 1
     return myInteger
 
@@ -59,13 +59,13 @@ def returnnumberpacket(pkt):
 def returnstringpacket(pkt):
     myString = ""
     for c in pkt:
-        myString += "%02x" % struct.unpack("B", c)[0]
+        myString += "%02x" % c
     return myString
 
 
 def printpacket(pkt):
     for c in pkt:
-        sys.stdout.write("%02x " % struct.unpack("B", c)[0])
+        sys.stdout.write("%02x " % c)
 
 
 def get_packed_bdaddr(bdaddr_string):
@@ -141,14 +141,14 @@ def parse_events(sock, loop_count=100):
         elif event == bluez.EVT_DISCONN_COMPLETE:
             i = 0
         elif event == LE_META_EVENT:
-            subevent, = struct.unpack("B", pkt[3])
+            subevent, = struct.unpack("B", pkt[3:4])
             pkt = pkt[4:]
             if subevent == EVT_LE_CONN_COMPLETE:
                 pass
                 # le_handle_connection_complete(pkt)
             elif subevent == EVT_LE_ADVERTISING_REPORT:
                 # print "advertising report"
-                num_reports = struct.unpack("B", pkt[0])[0]
+                num_reports = struct.unpack("B", pkt[0:1])[0]
                 report_pkt_offset = 0
                 for i in range(0, num_reports):
                     if (DEBUG):
@@ -176,8 +176,8 @@ def parse_events(sock, loop_count=100):
                         pkt[report_pkt_offset - 6: report_pkt_offset - 4])
                     minor = returnnumberpacket(
                         pkt[report_pkt_offset - 4: report_pkt_offset - 2])
-                    txp, = struct.unpack("b", pkt[report_pkt_offset - 2])
-                    rssi, = struct.unpack("b", pkt[report_pkt_offset - 1])
+                    txp, = (pkt[report_pkt_offset - 2],)
+                    rssi, = (pkt[report_pkt_offset - 1],)
 
                     beac = {'uuid': uuid, 'mac': mac, 'major': major,
                             'minor': minor, 'txp': txp, 'rssi': rssi}
