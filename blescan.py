@@ -130,7 +130,7 @@ def parse_events(sock, loop_count=100):
     for i in range(0, loop_count):
         pkt = sock.recv(255)
         if DEBUG:
-            print "Iteration " + str(i)
+            print ("Iteration " + str(i))
             printpacket(pkt)
         ptype, event, plen = struct.unpack("BBB", pkt[:3])
 
@@ -152,20 +152,20 @@ def parse_events(sock, loop_count=100):
                 report_pkt_offset = 0
                 for i in range(0, num_reports):
                     if (DEBUG):
-                        print "-------------"
+                        print ("-------------")
                         # print "\tfullpacket: ", printpacket(pkt)
-                        print "\tUDID: ", printpacket(pkt[report_pkt_offset - 22: report_pkt_offset - 6])
-                        print "\tMAJOR: ", printpacket(pkt[report_pkt_offset - 6: report_pkt_offset - 4])
-                        print "\tMINOR: ", printpacket(pkt[report_pkt_offset - 4: report_pkt_offset - 2])
-                        print "\tMAC address: ", packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9])
+                        print("\tUDID: ", printpacket(pkt[report_pkt_offset - 22: report_pkt_offset - 6]))
+                        print("\tMAJOR: ", printpacket(pkt[report_pkt_offset - 6: report_pkt_offset - 4]))
+                        print("\tMINOR: ", printpacket(pkt[report_pkt_offset - 4: report_pkt_offset - 2]))
+                        print("\tMAC address: ", packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9]))
                         # commented out - don't know what this byte is.  It's
                         # NOT TXPower
                         txpower, = struct.unpack(
                             "b", pkt[report_pkt_offset - 2])
-                        print "\t(Unknown):", txpower
-                        print struct.unpack("b", pkt[report_pkt_offset - 1])
+                        print("\t(Unknown):", txpower)
+                        print(struct.unpack("b", pkt[report_pkt_offset - 1]))
                         rssi, = struct.unpack("b", pkt[report_pkt_offset - 1])
-                        print "\tRSSI:", rssi
+                        print("\tRSSI:", rssi)
 
                     # build the Beacon dict
                     uuid = returnstringpacket(

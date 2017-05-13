@@ -12,9 +12,9 @@ from beacon import Beacon
 dev_id = 0
 try:
     sock = bluez.hci_open_dev(dev_id)
-    print "ble thread started"
+    print ("ble thread started")
 except:
-    print "error accessing bluetooth device..."
+    print ("error accessing bluetooth device...")
     sys.exit(1)
 
 blescan.hci_le_set_scan_parameters(sock)
@@ -30,4 +30,4 @@ while True:
         allbs[beacon.uuid] = beacon
 
     for key, _ in allbs.iteritems():
-        print allbs[key]
+        print (allbs[key])
